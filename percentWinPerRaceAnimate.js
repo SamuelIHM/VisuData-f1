@@ -33,14 +33,6 @@ d3.csv('formula-1-race-data/races.csv').then(function(data){
     .entries(data)
 })
 
-/*
-function getHamilton (){
-    while (drivers==undefined){
-        console.log("")
-    }
-    return drivers
-}*/
-
 function contains(a, obj) {
     for (var i = 0; i < a.length; i++) {
         if (a[i].raceId === obj.raceId) {
@@ -59,86 +51,72 @@ function getWonRacePerYear(driverRef,year){
             results=data
 
 
-            raceForDriver=results.filter(results=>results.driverId==driverId).filter(results=>results.position=="1")
+            raceWinForDriver=results.filter(results=>results.driverId==driverId).filter(results=>results.position=="1")
 
+            d3.csv('formula-1-race-data/races.csv').then(function(data){
+                races=data
+
+                let raceYearDriver=races.filter(races=>races.year==year).filter(raceYear=>contains(raceWinForDriver,raceYear))
+                console.log(raceYearDriver)
+                return raceYearDriver.length;
+
+            })
+        });
+    })
+}
+
+function getNumberRace(driverRef,year){
+    d3.csv('formula-1-race-data/drivers.csv').then(function(data){
+        drivers = data
+        driver = drivers.filter(drivers=>drivers.driverRef==driverRef)[0]
+        let driverId = driver.driverId
+        d3.csv('formula-1-race-data/results.csv').then(function(data){
+            results=data
+
+
+            raceForDriver=results.filter(results=>results.driverId==driverId)
             d3.csv('formula-1-race-data/races.csv').then(function(data){
                 races=data
 
                 let raceYearDriver=races.filter(races=>races.year==year).filter(raceYear=>contains(raceForDriver,raceYear))
                 console.log(raceYearDriver)
+                return raceYearDriver.length;
             })
         });
     })
 }
 
-
-function getHamiltonRace(){
+function getPercentage(driverRef, year){
     d3.csv('formula-1-race-data/drivers.csv').then(function(data){
         drivers = data
-        hamilton = drivers.filter(drivers=>drivers.driverRef=="hamilton")[0]
-        let hamiltonId = hamilton.driverId
+        driver = drivers.filter(drivers=>drivers.driverRef==driverRef)[0]
+        let driverId = driver.driverId
         d3.csv('formula-1-race-data/results.csv').then(function(data){
             results=data
 
 
-            raceForHamilton=results.filter(results=>results.driverId==hamiltonId).filter(results=>results.position=="1")
-
+            raceForDriver=results.filter(results=>results.driverId==driverId)
+            raceWinForDriver=results.filter(results=>results.driverId==driverId).filter(results=>results.position=="1")
             d3.csv('formula-1-race-data/races.csv').then(function(data){
                 races=data
 
-                //console.log(raceForHamilton);
-                let race2015HamiltonWin=races.filter(races=>races.year=="2015").filter(race2015=>contains(raceForHamilton,race2015))
-                console.log(race2015HamiltonWin)
+                let raceYearDriver=races.filter(races=>races.year==year).filter(raceYear=>contains(raceForDriver,raceYear))
+                let raceWonYearDriver=races.filter(races=>races.year==year).filter(raceYear=>contains(raceWinForDriver,raceYear))
+                console.log(year+":")
+                console.log(raceWonYearDriver.length*100/raceYearDriver.length)
+                return raceYearDriver.length;
             })
-
         });
     })
 }
 
-function getRace(){
-    d3.csv('formula-1-race-data/results.csv').then(function(data){
-        results=data
-        raceForHamilton=results.filter(results=>results.driverId=="1")
-        console.log(raceForHamilton)
-    });
+//getWonRacePerYear("michael_schumacher","2003")
+//getNumberRace("michael_schumacher","2003")
+let years = ["1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012"]
 
+for (var i=0; i<years.length;i++){
+    getPercentage("michael_schumacher",years[i]);
 }
 
-
-
-function getHamilton(){
-    d3.csv('formula-1-race-data/drivers.csv').then(function(data){
-        drivers = data
-        hamilton = drivers.filter(drivers=>drivers.driverRef=="hamilton")[0]
-        console.log(hamilton.code)
-    })
-}
-
-function getRace2015(){
-    d3.csv('formula-1-race-data/races.csv').then(function(data){
-        races=data
-        race2015=races.filter(races=>races.year=="2015")
-        console.log(race2015)
-
-    })
-}
-//let hamilton = drivers.filter(drivers=>drivers.surname=="hamilton")
-
-//getHamilton()
-
-//getRace()
-
-//getRace2018()
-
-//getHamiltonRace()
-//getWonRacePerYear("hamilton","2015")
-getWonRacePerYear("michael_schumacher","2003")
-//let hamiltonVictory2005 = racesResults.filter(racesResults=>racesResults.position==1).filter(racesResults.driverId==hamilton.driverId)
-
-
-//console.log(getHamilton())
-//console.log(getHamilton())
-//console.log(hamiltonVictory2005)
-
-
+//getPercentage("michael_schumacher","2003")
 
