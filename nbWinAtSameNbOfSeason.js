@@ -1,5 +1,5 @@
 let width = 1000
-let height = 200
+let height = 1000
 const svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
 let g;
 
@@ -200,18 +200,9 @@ async function getSort(){
     }
 
 
-
-
-
-
-
-
-
-
-
-    /*
     console.log(winSumHam)
     console.log(winSumSch)
+    /*
     console.log("ham");
     console.log(ham);
     console.log(hamAge);
@@ -219,6 +210,65 @@ async function getSort(){
     console.log(sch);
     console.log(schAge)
     */
+
+    svg.append("rect")
+        .attr("width",2000)
+        .attr("height",2000)
+        .attr("fill","black")
+
+
+
+    svg.append("text")
+        .attr('x',30)
+        .attr('y',30)
+        .attr('font-size',40)
+        .attr("fill","white")
+        .text("Schumacher vs Hamilton per season")
+
+    for (var i=0;i<12;i++){
+
+
+
+        svg.append("text")
+            .attr('y',520)
+            .attr('x',80*i+5)
+            .attr("fill","white")
+            .text("Saison "+(i+1).toString())
+
+            svg.append('rect')
+                .attr('y',500-5*winSumSch[i])
+                .attr('x',80*i)
+                .attr('height',5*winSumSch[i])
+                .attr('width',30)
+                .attr('fill','red')
+
+            svg.append('text')
+                .attr('y',500-5*winSumSch[i]-5)
+                .attr('x',80*i+7)
+                .attr("fill","white")
+                .text(winSumSch[i])
+
+            svg.append('rect')
+                .attr('y',500-5*winSumHam[i])
+                .attr('x',80*i+30)
+                .attr('height',5*winSumHam[i])
+                .attr('width',30)
+                .attr('fill','grey')
+
+            svg.append('text')
+                .attr('y',500-5*winSumHam[i]-5)
+                .attr('x',80*i+30+7)
+                .attr("fill","white")
+                .text(winSumHam[i])
+
+
+
+
+
+
+
+    }
+
 
 
 
